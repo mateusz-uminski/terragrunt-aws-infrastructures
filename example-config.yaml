@@ -1,0 +1,14 @@
+# This file should be used as an example when creating the config.yaml file.
+# The config.yaml file should only contain variables that we do not want to
+# accidentally commit.
+
+# common variables
+aws_account_id: 111111111111
+
+# module variables
+## module1 variables
+module1_variable_name1: example_value
+module1_variable_name2: example_value
+## module 2 variables
+module2_variable_name1: example_value
+module2_variable_name2: example_value
