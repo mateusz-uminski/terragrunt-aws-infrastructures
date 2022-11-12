@@ -3,7 +3,9 @@
 # accidentally commit.
 
 # common variables
-aws_account_id: 111111111111
+mgmt_microcloud_aws_account_id: "111111111111"
+shared_microcloud_aws_account_id: "111111111111"
+dev_microcloud_aws_account_id: "111111111111"
 
 # module variables
 ## module1 variables
