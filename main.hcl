@@ -7,7 +7,7 @@ locals {
   region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
   aws_region  = local.region_vars.locals.aws_region
 
-  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl", "i_dont_exist.hcl"), { locals = {} })
 }
 
 terraform {
