@@ -10,6 +10,24 @@ locals {
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 }
 
+terraform {
+  extra_arguments "use_aws_profile" {
+    commands = [
+      "init",
+      "apply",
+      "refresh",
+      "import",
+      "plan",
+      "taint",
+      "untaint",
+    ]
+
+    env_vars = {
+      AWS_PROFILE = local.aws_profile
+    }
+  }
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
@@ -28,6 +46,7 @@ remote_state {
     encrypt        = true
     bucket         = "terragrunt-terraform-state-${local.account_name}-${local.aws_region}"
     key            = "${path_relative_to_include()}/terraform.tfstate"
+    profile        = local.aws_profile
     region         = local.aws_region
     dynamodb_table = "terraform-locks"
   }
