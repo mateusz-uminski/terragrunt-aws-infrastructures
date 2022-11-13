@@ -42,50 +42,46 @@ terragrunt run-all apply
  and one account for each environment (I decided for only one environment account to minimize costs).
 2. Configure MFA on each account.
 3. Create an AWS Organization on management account, set consolidated billing and invite other accounts to the organization.
-4. On each account create cloudadmin IAM user, then attach directly existing policy `AdministratorAccess` to it.
-5. Configure MFA for each cloudadmin user.
-6. Generate AWS_ACCESS_KEY_ID and AWS_ACCESS_SECRET_KEY for each cloudadmin user.
+4. Enable SCP in the organization.
+5. On each account create cloudadmin IAM user, then attach directly existing policy `AdministratorAccess` to it.
+6. Configure MFA for each cloudadmin user.
+7. Generate AWS_ACCESS_KEY_ID and AWS_ACCESS_SECRET_KEY for each cloudadmin user.
+8. Execute `cd mgmt-microcloud/us-east-1/organization && terragrunt run-all apply` and then attach AWS accounts to appropriate
+organizational units.
 
 # Project structure
-The code in this repo uses the following project structure:
+Note: modules that configure global services should be places in the us-east-1 directory.
+The code in this repo uses the following project structure ():
 ```
 |
 | - mgmt-account
-| | - global
+| | - us-east-1
+| | | - organization
 | | | - scp
-| | | | - resource
 |
 | - shared-account
-| | - global
-| | | - projectA
-| | | | - resource1
-| | | | - resource2
+| | - us-east-1
+| | | - iam-groups
+| | | - iam-roles
+| | | - iam-users
 | |
-| | - region
-| | | - environment
-| | | | - bootstrap
-| | | | | - resource1
-| | | | | - resource2
-| | | |
+| | - eu-central-1
+| | | - environment (dev, stage, prod)
+| | | | - network
 | | | | - projectA
-| | | | | - resource1
-| | | | | - resource2
 |
 | - dev-account
-| | - global
+| | - us-east-1
 | | | - projectA
-| | | | - resource1
-| | | | - resource2
+| | | - environment (dev, stage, prod)
+| | | | - network
+| | | | - projectB
 | |
-| | - region
-| | | - environment
-| | | | - bootstrap
-| | | | | - resource1
-| | | | | - resource2
-| | | |
-| | | | - projectA
-| | | | | - resource1
-| | | | | - resource2
+| | - eu-central-1
+| | | - environment (dev, stage, prod)
+| | | | - network
+| | | | - projectC
+...
 ```
 
 # Organization: microcloud
@@ -110,5 +106,3 @@ todo
 
 ## Resource naming convention
 todo
-
-
